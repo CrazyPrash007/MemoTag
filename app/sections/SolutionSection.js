@@ -198,14 +198,18 @@ export default function SolutionSection() {
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 200 }}
                     >
-                      <Image 
-                        src="/images/demo.jpeg" 
-                        alt="MemoTag Wearable Device" 
-                        width={320} 
-                        height={180} 
-                        className="object-contain h-full w-full z-10 drop-shadow-md transition-transform duration-300"
-                        priority
-                      />
+                      <div className="relative w-full h-full rounded-md overflow-hidden">
+                        <Image 
+                          src="/images/memotag.jpeg" 
+                          alt="MemoTag Wearable Device" 
+                          fill
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="object-cover z-10 shadow-lg"
+                          style={{ objectPosition: 'center' }}
+                          priority
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.2)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+                      </div>
                     </motion.div>
                     <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-transparent z-0 rounded-md"></div>
                   </div>
