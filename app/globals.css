@@ -2,25 +2,289 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #222222;
+  
+  /* MemoTag Color Palette */
+  --primary: #4F6AFF;
+  --primary-light: #7D91FF;
+  --secondary: #FF6B6B;
+  --accent: #64DFDF;
+  --gray-light: #F5F7FA;
+  --gray: #E4E7EB;
+  --gray-dark: #8A94A6;
+  
+  /* Transition values */
+  --theme-transition-duration: 300ms;
+  --theme-transition-easing: ease-in-out;
+
+  /* Add spacing variables for consistency */
+  --section-spacing-y: 40px;  /* Reduced from original 80px (py-20) */
+  --section-heading-spacing: 30px;  /* Reduced from original 64px (mb-16) */
+  --section-content-spacing: 20px;  /* Reduced spacing between content blocks */
+  --scroll-margin-top: 60px; /* Scroll margin for section anchors */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark mode class applied by the toggle and script */
+.dark {
+  --background: #121212;
+  --foreground: #F5F7FA;
+  --gray-light: #232323;
+  --gray: #2A2A2A;
+  --gray-dark: #6B7280;
+  color-scheme: dark;
+}
+
+/* Light mode explicitly set */
+.light {
+  --background: #ffffff;
+  --foreground: #222222;
+  --gray-light: #F5F7FA;
+  --gray: #E4E7EB;
+  --gray-dark: #8A94A6;
+  color-scheme: light;
+}
+
+html {
+  transition: color var(--theme-transition-duration) var(--theme-transition-easing),
+              background-color var(--theme-transition-duration) var(--theme-transition-easing);
+  background-color: var(--background);
+  color: var(--foreground);
+  scroll-behavior: smooth;
+  scroll-padding-top: 40px; /* Reduced scroll padding to stop closer to target */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), sans-serif;
+  transition: background-color var(--theme-transition-duration) var(--theme-transition-easing),
+              color var(--theme-transition-duration) var(--theme-transition-easing);
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Apply transitions to common elements for smoother theme changes */
+button, a, input, textarea, div, span, p, h1, h2, h3, h4, h5, h6 {
+  transition: color var(--theme-transition-duration) var(--theme-transition-easing),
+              background-color var(--theme-transition-duration) var(--theme-transition-easing),
+              border-color var(--theme-transition-duration) var(--theme-transition-easing),
+              box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+/* Force redraw helper class - no transitions during theme change to prevent visual artifacts */
+.theme-transition {
+  transition: none !important;
+}
+
+/* Help with select elements and options for consistent theme colors */
+select, option {
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+/* Ensure header backgrounds properly reflect theme colors */
+header {
+  color: var(--foreground);
+}
+
+/* Prevent navbar color flicker on page load */
+.fixed {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Standard CSS classes */
+.container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition-property: all;
+  transition-duration: 300ms;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition-property: all;
+  transition-duration: 300ms;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.section-heading {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.section-subheading {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: var(--gray-dark);
+  text-align: center;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+}
+
+/* Ensure headings use the foreground color */
+h1, h2, h3, h4, h5, h6, .section-heading {
+  color: var(--foreground);
+}
+
+/* Ensure section headings are properly styled */
+.section-heading {
+  @apply text-3xl md:text-4xl font-bold mb-4;
+  color: var(--foreground);
+}
+
+.section-subheading {
+  @apply text-lg md:text-xl max-w-3xl mx-auto mb-6;
+  color: var(--gray-dark);
+}
+
+/* Device visualization fixes */
+image[src*="memotag-device.svg"] {
+  filter: var(--svg-filter);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --svg-filter: hue-rotate(0deg) brightness(0.9);
   }
 }
 
-body {
-  background: var(--background);
+@media (prefers-color-scheme: light) {
+  :root {
+    --svg-filter: hue-rotate(0deg) brightness(1);
+  }
+}
+
+/* Ensure footer background properly reflects theme colors */
+footer {
+  background-color: var(--background) !important;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide scrollbars for testimonial carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Add scroll margin to section elements */
+section[id], div[id] {
+  scroll-margin-top: var(--scroll-margin-top);
+}
+
+/* Specific adjustment for contact section */
+#contact {
+  scroll-margin-top: 60px;
+}
+
+/* More specific targeting for the contact heading */
+#contact-heading {
+  scroll-margin-top: 60px;
+}
+
+/* Custom animations for UI elements */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-slow-delayed {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow-delayed {
+  animation: pulse-slow 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-gradient-x {
+  animation: gradient-x 15s ease infinite;
+  background-size: 200% 200%;
+}
+
+/* Card hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Glass effect for cards */
+.glass-effect {
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dark .glass-effect {
+  background-color: rgba(18, 18, 18, 0.8);
 }
