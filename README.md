@@ -1,7 +1,6 @@
 # MemoTag - AI-Powered Dementia Care Platform
 
 <div align="center">
-  <img src="public/images/logo.png" alt="MemoTag Logo" width="200"/>
   <p><i>Enhancing quality of life through cognitive tracking, monitoring, and personalized support</i></p>
 </div>
 
