@@ -105,7 +105,7 @@ export default function WaitlistForm({ className = "" }) {
             transition={{ delay: 0.6 }}
             className="text-xs md:text-sm text-[var(--gray-dark)] mt-1 mb-3"
           >
-            We'll keep you updated on our progress.
+            We&apos;ll keep you updated on our progress.
           </motion.p>
           <motion.button
             initial={{ opacity: 0 }}
